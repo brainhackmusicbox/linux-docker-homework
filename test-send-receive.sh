@@ -11,7 +11,7 @@ RECEIVED_FILE=file-received
 
 
 echo -e "\n==== Create custom bridge network (if not exists) ..."
-sudo docker network create custom-bridge 2>/dev/null
+sudo docker network create $NETWORK_NAME 2>/dev/null
 
 if [ -f $IMAGE_ARCHIVE ];
 then
@@ -57,10 +57,11 @@ echo "================================================"
 
 
 
-echo -e "\n\n==== Stop and remove both containers"
+echo -e "\n\n==== Stop and remove both containers and network $NETWORK_NAME"
 sudo docker container stop $SERVER_NAME $CLIENT_NAME
 sudo docker container rm $SERVER_NAME $CLIENT_NAME
 sudo docker image rm $IMAGE_NAME
+sudo docker network rm $NETWORK_NAME
 
 echo -e "\n\n==== Remove $SENT_FILE and $RECEIVED_FILE"
 rm -f $SENT_FILE $RECEIVED_FILE
